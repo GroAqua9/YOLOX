@@ -246,12 +246,18 @@ def main(exp, args):
         args.experiment_name = exp.exp_name
 
     file_name = os.path.join(exp.output_dir, args.experiment_name)
+
+    print(file_name)
+
+    #os.abort()
     os.makedirs(file_name, exist_ok=True)
 
     vis_folder = None
     if args.save_result:
         vis_folder = os.path.join(file_name, "vis_res")
         os.makedirs(vis_folder, exist_ok=True)
+
+    print(f'vis_folder: {vis_folder}')
 
     if args.trt:
         args.device = "gpu"
@@ -280,6 +286,7 @@ def main(exp, args):
         else:
             ckpt_file = args.ckpt
         logger.info("loading checkpoint")
+        print(ckpt_file)
         ckpt = torch.load(ckpt_file, map_location="cpu")
         # load the model state dict
         model.load_state_dict(ckpt["model"])
@@ -289,6 +296,7 @@ def main(exp, args):
         logger.info("\tFusing model...")
         model = fuse_model(model)
 
+    # os.abort()
     if args.trt:
         assert not args.fuse, "TensorRT model is not support model fusing!"
         trt_file = os.path.join(file_name, "model_trt.pth")
@@ -301,6 +309,19 @@ def main(exp, args):
     else:
         trt_file = None
         decoder = None
+
+    #os.abort()
+
+    print(COCO_CLASSES)
+    print(trt_file)
+    print(decoder)
+    print(args.device)
+    print(args.fp16)
+    print(args.legacy)
+
+    #os.abort()
+
+    #predictor = Predictor(None, None, 'gpu', False, False)
 
     predictor = Predictor(
         model, exp, COCO_CLASSES, trt_file, decoder,
@@ -315,6 +336,8 @@ def main(exp, args):
 
 if __name__ == "__main__":
     args = make_parser().parse_args()
+    print(f'args.exp_file: {args.exp_file}')
+    print(f'args.name: {args.name}')
     exp = get_exp(args.exp_file, args.name)
-
+    
     main(exp, args)

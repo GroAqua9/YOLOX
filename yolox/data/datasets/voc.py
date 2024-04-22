@@ -101,8 +101,8 @@ class VOCDetection(CacheDataset):
     def __init__(
         self,
         data_dir,
-        image_sets=[("2007", "trainval"), ("2012", "trainval")],
-        img_size=(416, 416),
+        image_sets=[("2012", "train")],
+        img_size=(640, 640),
         preproc=None,
         target_transform=AnnotationTransform(),
         dataset_name="VOC0712",
@@ -261,7 +261,9 @@ class VOCDetection(CacheDataset):
                 for im_ind, index in enumerate(self.ids):
                     index = index[1]
                     dets = all_boxes[cls_ind][im_ind]
+                    
                     if dets.shape[0] == 0:
+                        print('error')
                         continue
                     for k in range(dets.shape[0]):
                         f.write(
