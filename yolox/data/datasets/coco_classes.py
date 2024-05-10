@@ -3,7 +3,5 @@
 # Copyright (c) Megvii, Inc. and its affiliates.
 
 COCO_CLASSES = (
-    "feed",
-    "debris",
-    "lumpfish",
+    "fish",
 )

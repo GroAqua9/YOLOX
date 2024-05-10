@@ -3,7 +3,5 @@
 # Copyright (c) Megvii, Inc. and its affiliates.
 
 VOC_CLASSES = (
-    "feed",
-    "debris",
-    "lumpfish",
+    "fish",
 )
